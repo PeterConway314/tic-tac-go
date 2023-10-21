@@ -1,0 +1,5 @@
+- 3x3 board
+- random ai opponent
+- 2 player mode
+- unit tests
+- Docker things
