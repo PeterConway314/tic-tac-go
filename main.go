@@ -14,5 +14,5 @@ func main() {
 	b := board.Board{}
 	b.InitialiseBoard()
 
-	fmt.Printf("board=%+v", b.Tiles)
+	fmt.Printf(b.Display())
 }
