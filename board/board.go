@@ -22,26 +22,45 @@ var (
 )
 
 type Board struct {
-	Tiles [Size][Size]int
+	Cells [Size][Size]int
 }
 
 // Create a 3x3 two-dimensional array and fill it with the zero value
 func (b Board) InitialiseBoard() {
-	b.Tiles = [Size][Size]int{}
+	b.Cells = [Size][Size]int{}
 }
 
 // Determine whether a proposed move is valid by checking for collisions
 // with non-zero values
 func (b Board) IsValidMove(x, y int) bool {
-	if b.Tiles[x][y] != ZeroVal {
+	if b.Cells[x][y] != ZeroVal {
 		return false
 	}
 
 	return true
 }
 
-// ...
+// Determine whether the board has a winner by checking rows, colums and diagonals
 func (b Board) HasWinner() bool {
+	// Check rows and cols for non-zero matches
+	for i := 0; i < Size; i++ {
+		if b.Cells[i][0] != ZeroVal && b.Cells[i][0] == b.Cells[i][1] && b.Cells[i][1] == b.Cells[i][2] {
+			return true
+		}
+
+		if b.Cells[0][i] != ZeroVal && b.Cells[0][i] == b.Cells[1][i] && b.Cells[1][i] == b.Cells[2][i] {
+			return true
+		}
+	}
+
+	// Check diagonals for non-zero matches
+	if b.Cells[1][1] != ZeroVal && b.Cells[0][0] == b.Cells[1][1] && b.Cells[1][1] == b.Cells[2][2] {
+		return true
+	}
+	if b.Cells[1][1] != ZeroVal && b.Cells[0][2] == b.Cells[1][1] && b.Cells[1][1] == b.Cells[2][0] {
+		return true
+	}
+
 	return false
 }
 
@@ -49,9 +68,9 @@ func (b Board) HasWinner() bool {
 func (b Board) Display() string {
 	// Use a buffer to efficiently concatenate the board display string
 	var display bytes.Buffer
-	for row := 0; row < 3; row++ {
-		for col := 0; col < 3; col++ {
-			display.WriteString(fmt.Sprintf(" %s ", displayMap[b.Tiles[row][col]]))
+	for row := 0; row < Size; row++ {
+		for col := 0; col < Size; col++ {
+			display.WriteString(fmt.Sprintf(" %s ", displayMap[b.Cells[row][col]]))
 
 			// Add vertical separators for internal cells
 			if col < 2 {
