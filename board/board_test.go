@@ -2,9 +2,10 @@ package board_test
 
 import (
 	"testing"
-	"tic-tac-go/board"
 
 	. "github.com/smartystreets/goconvey/convey"
+
+	"tic-tac-go/board"
 )
 
 var (
