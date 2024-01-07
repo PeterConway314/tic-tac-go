@@ -12,7 +12,7 @@ func main() {
 	fmt.Printf(utils.Splash())
 
 	b := board.Board{}
-	b.InitialiseBoard()
+	b.Initialise()
 
 	fmt.Printf(b.Display())
 }

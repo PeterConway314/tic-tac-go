@@ -26,8 +26,16 @@ type Board struct {
 }
 
 // Create a 3x3 two-dimensional array and fill it with the zero value
-func (b Board) InitialiseBoard() {
+func (b Board) Initialise() {
 	b.Cells = [Size][Size]int{}
+}
+
+func (b Board) Clear() {
+	for row := 0; row < Size; row++ {
+		for col := 0; col < Size; col++ {
+			b.Cells[row][col] = 0
+		}
+	}
 }
 
 // Determine whether a proposed move is valid by checking for collisions
