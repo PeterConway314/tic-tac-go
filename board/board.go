@@ -19,6 +19,11 @@ var (
 		P1Val:   "X",
 		P2Val:   "O",
 	}
+
+	moveMap = map[string]int{
+		"X": P1Val,
+		"O": P2Val,
+	}
 )
 
 type Board struct {
@@ -26,11 +31,11 @@ type Board struct {
 }
 
 // Create a 3x3 two-dimensional array and fill it with the zero value
-func (b Board) Initialise() {
+func (b *Board) Initialise() {
 	b.Cells = [Size][Size]int{}
 }
 
-func (b Board) Clear() {
+func (b *Board) Clear() {
 	for row := 0; row < Size; row++ {
 		for col := 0; col < Size; col++ {
 			b.Cells[row][col] = 0
@@ -40,7 +45,7 @@ func (b Board) Clear() {
 
 // Determine whether a proposed move is valid by checking for collisions
 // with non-zero values
-func (b Board) IsValidMove(x, y int) bool {
+func (b *Board) IsValidMove(x, y int) bool {
 	if b.Cells[x][y] != ZeroVal {
 		return false
 	}
@@ -48,8 +53,13 @@ func (b Board) IsValidMove(x, y int) bool {
 	return true
 }
 
+// RegisterMove updates the board's cells with a player's move
+func (b *Board) RegisterMove(player string, x, y int) {
+	b.Cells[x][y] = moveMap[player]
+}
+
 // Determine whether the board has a winner by checking rows, colums and diagonals
-func (b Board) HasWinner() bool {
+func (b *Board) HasWinner() bool {
 	// Check rows and cols for non-zero matches
 	for i := 0; i < Size; i++ {
 		if b.Cells[i][0] != ZeroVal && b.Cells[i][0] == b.Cells[i][1] && b.Cells[i][1] == b.Cells[i][2] {
@@ -73,7 +83,7 @@ func (b Board) HasWinner() bool {
 }
 
 // Generate a human-friendly version of the board to display in a terminal
-func (b Board) Display() string {
+func (b *Board) Display() string {
 	// Use a buffer to efficiently concatenate the board display string
 	var display bytes.Buffer
 	for row := 0; row < Size; row++ {
